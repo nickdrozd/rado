@@ -55,3 +55,25 @@ Tape MicroTape where
       Left  _ =>
         let prf = sym $ plusCommutative i 1 in
           (S i ** (FS $ FS p, rewrite prf in tape ++ [0]))
+
+----------------------------------------
+
+Block : Type
+Block = (Color, (i : Nat ** Fin (S i)))
+
+MacroTape : Type
+MacroTape = (j : Nat ** (Vect (S j) Block, Fin (S j)))
+
+Show MacroTape where
+  show x = "not implemented"
+
+Tape MacroTape where
+  blank = (0 ** ([(0, (0 ** FZ))], FZ))
+
+  read (tapeIndex ** (blocks, blockIndex)) =
+    let (color, _) = index blockIndex blocks in
+      color
+
+  print color tape = ?qwer
+
+  shift dir tape = ?sdfg
