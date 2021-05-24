@@ -74,8 +74,8 @@ Tape MacroTape where
     let (color, _) = index blockIndex blocks in
       color
 
-  print color initTape@(tapepos ** (blocks, blockIndex)) =
-    let (currColor, block) = index blockIndex blocks in
+  print color initTape@(_ ** (blocks@(b0 :: rest), tapeIndex)) =
+    let (currColor, (_ ** blockIndex)) = index tapeIndex blocks in
       case color == currColor of
         True  => initTape
         False => ?asdf
