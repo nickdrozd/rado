@@ -58,11 +58,10 @@ Tape MicroTape where
 
 ----------------------------------------
 
-Block : Type
-Block = (Color, (i : Nat ** Fin (S i)))
-
 MacroTape : Type
-MacroTape = (j : Nat ** (Vect (S j) Block, Fin (S j)))
+MacroTape = (i : Nat ** (Vect (S i) Block, Fin (S i))) where
+  Block : Type
+  Block = (Color, (j : Nat ** Fin (S j)))
 
 Show MacroTape where
   show x = "not implemented"
@@ -78,6 +77,15 @@ Tape MacroTape where
     let (currColor, (_ ** blockIndex)) = index tapeIndex blocks in
       case color == currColor of
         True  => initTape
-        False => ?asdf
+        False => ?qwer
 
-  shift dir tape = ?sdfg
+  right tape = ?zxcv
+
+  left (i ** ((0, (j ** FZ)) :: rest, FZ)) =
+    (S i ** (?q, ?w))
+
+  left (i ** ((0, (j ** (FS x))) :: _, FZ)) = ?asdf_7
+
+  left (i ** ((_, r) :: _, FZ)) = ?asdf_5
+
+  left (i ** (blocks, (FS x))) = ?asdf_3
