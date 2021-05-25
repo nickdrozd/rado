@@ -81,11 +81,8 @@ Tape MacroTape where
 
   right tape = ?zxcv
 
-  left (i ** (FZ, (0, (j ** FZ)) :: rest)) =
-    (i ** (FZ, (0, (S j ** FZ)) :: rest))
-
-  left (i ** (FZ, (0, (j ** FS x)) :: rest)) = ?asdf_6
-
-  left (i ** (FZ, (_, r) :: rest)) = ?asdf_4
-
-  left (i ** (FS p, blocks)) = ?asdf_2
+  left (i ** (blockNum, blocks)) =
+    let block = index blockNum blocks in
+      case block of
+        (0, y) => ?asdf_2
+        (_, y) => ?asdf_3
