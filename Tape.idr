@@ -58,16 +58,19 @@ Tape MicroTape where
 MacroTapeBlock : Type
 MacroTapeBlock = (Color, (j : Nat ** Fin (S j)))
 
-Show MacroTapeBlock where
-  show x = "not implemented"
+-- Show MacroTapeBlock where
+--   show x = "not implemented"
 
 -- Tape MacroTapeBlock where
---   print tape = tape  -- not implemented
+--   blank = (0, (0 ** FZ))
+
+--   read (color, _) = color
+
+--   print color (c, _) = ?px
 
 --   left  tape = ?lx
 
 --   right tape = ?rx
-
 
 MacroTape : Type
 MacroTape = (i : Nat ** (Fin (S i), Vect (S i) MacroTapeBlock))
