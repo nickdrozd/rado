@@ -97,9 +97,9 @@ Tape MacroTape where
     in
       (1 ** (FZ, [newBlock] ++ [oldBlock]))
 
-  print color (0 ** (FZ, [(curr, (S j ** FS p))])) =
-    case strengthen $ FS p of
-      Right x => ?asdf_3
-      Left  x => ?asdf_1
+  print color (0 ** (FZ, [(curr, (S j ** FS pos))])) =
+    case strengthen $ FS pos of
+      Right p => ?asdf_3
+      Left  p => ?asdf_1
 
   print color (S i ** (pos, blocks)) = ?asdf_2
