@@ -59,7 +59,7 @@ Tape MicroTape where
 ----------------------------------------
 
 MacroTape : Type
-MacroTape = (i : Nat ** (Vect (S i) Block, Fin (S i))) where
+MacroTape = (i : Nat ** (Fin (S i), Vect (S i) Block)) where
   Block : Type
   Block = (Color, (j : Nat ** Fin (S j)))
 
@@ -67,13 +67,13 @@ Show MacroTape where
   show x = "not implemented"
 
 Tape MacroTape where
-  blank = (0 ** ([(0, (0 ** FZ))], FZ))
+  blank = (0 ** (FZ, [(0, (0 ** FZ))]))
 
-  read (tapeIndex ** (blocks, blockIndex)) =
+  read (_ ** (blockIndex, blocks)) =
     let (color, _) = index blockIndex blocks in
       color
 
-  print color initTape@(_ ** (blocks@(b0 :: rest), tapeIndex)) =
+  print color initTape@(_ ** (tapeIndex, blocks@(b0 :: rest))) =
     let (currColor, (_ ** blockIndex)) = index tapeIndex blocks in
       case color == currColor of
         True  => initTape
@@ -81,11 +81,11 @@ Tape MacroTape where
 
   right tape = ?zxcv
 
-  left (i ** ((0, (j ** FZ)) :: rest, FZ)) =
+  left (i ** (FZ, (0, (j ** FZ)) :: rest)) =
     (S i ** (?q, ?w))
 
-  left (i ** ((0, (j ** (FS x))) :: _, FZ)) = ?asdf_7
+  left (i ** (FZ, (0, (j ** (FS x))) :: _)) = ?asdf_7
 
-  left (i ** ((_, r) :: _, FZ)) = ?asdf_5
+  left (i ** (FZ, (_, r) :: _)) = ?asdf_5
 
-  left (i ** (blocks, (FS x))) = ?asdf_3
+  left (i ** (FS x, blocks)) = ?asdf_3
