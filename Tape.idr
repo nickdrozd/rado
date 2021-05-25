@@ -91,13 +91,11 @@ Tape MacroTape where
     (0 ** (FZ, [(color, (0 ** FZ))]))
 
   print color tape@(0 ** (FZ, [(curr, (S j ** FZ))])) =
-    if curr == color
-      then tape else
-      let
-        newBlock = (color, (0 ** FZ))
-        oldBlock = (curr, (j ** FZ))
-      in
-        (1 ** (FZ, [newBlock] ++ [oldBlock]))
+    let
+      newBlock = (color, (0 ** FZ))
+      oldBlock = (curr, (j ** FZ))
+    in
+      (1 ** (FZ, [newBlock] ++ [oldBlock]))
 
   print color (0 ** (FZ, [(curr, (S j ** FS p))])) =
     ?asdf
