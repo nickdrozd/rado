@@ -73,25 +73,33 @@ Tape MacroTape where
     let (color, _) = index blockIndex blocks in
       color
 
-  print color initTape@(_ ** (tapeIndex, blocks@(b0 :: rest))) =
-    let (currColor, (_ ** blockIndex)) = index tapeIndex blocks in
-      case color == currColor of
-        True  => initTape
-        False => ?qwer
-
   right tape = ?zxcv
 
   left (i ** (FZ, (0, (j ** FZ)) :: rest)) =
     (i ** (FZ, (0, (S j ** FZ)) :: rest))
 
-  left (i ** (FZ, (0, (j ** FS p)) :: rest)) =
-    (i ** (FZ, (0, (j ** weaken p)) :: rest))
+  left (i ** (FZ, (c, (j ** FS p)) :: rest)) =
+    (i ** (FZ, (c, (j ** weaken p)) :: rest))
 
   left (i ** (FZ, blocks @ ((c, (_ ** FZ)) :: _))) =
     let newBlock = (0, (1 ** FZ)) in
       (S i ** (FZ, newBlock :: blocks))
 
-  left (i ** (FZ, (c, (j ** FS p)) :: rest)) =
-    (i ** (FZ, (c, (j ** weaken p)) :: rest))
+  left (i ** (FS p, block :: blocks)) = ?qwer
 
-  left (i ** (FS p, block :: blocks)) = ?asdf
+  print color (0 ** (FZ, [(curr, (0 ** FZ))])) =
+    (0 ** (FZ, [(color, (0 ** FZ))]))
+
+  print color tape@(0 ** (FZ, [(curr, (S j ** FZ))])) =
+    if curr == color
+      then tape else
+      let
+        newBlock = (color, (0 ** FZ))
+        oldBlock = (curr, (j ** FZ))
+      in
+        (1 ** (FZ, [newBlock] ++ [oldBlock]))
+
+  print color (0 ** (FZ, [(curr, (S j ** FS p))])) =
+    ?asdf
+
+  print color (S i ** (pos, blocks)) = ?asdf_2
