@@ -61,12 +61,12 @@ MacroTapeBlock = (Color, (j : Nat ** Fin (S j)))
 Show MacroTapeBlock where
   show x = "not implemented"
 
-Tape MacroTapeBlock where
-  print tape = tape  -- not implemented
+-- Tape MacroTapeBlock where
+--   print tape = tape  -- not implemented
 
-  left  tape = ?lx
+--   left  tape = ?lx
 
-  right tape = ?rx
+--   right tape = ?rx
 
 
 MacroTape : Type
@@ -82,19 +82,7 @@ Tape MacroTape where
     let (color, _) = index blockIndex blocks in
       color
 
-  right tape = ?zxcv
-
-  left (i ** (FZ, (0, (j ** FZ)) :: rest)) =
-    (i ** (FZ, (0, (S j ** FZ)) :: rest))
-
-  left (i ** (FZ, (c, (j ** FS p)) :: rest)) =
-    (i ** (FZ, (c, (j ** weaken p)) :: rest))
-
-  left (i ** (FZ, blocks @ ((c, (_ ** FZ)) :: _))) =
-    let newBlock = (0, (1 ** FZ)) in
-      (S i ** (FZ, newBlock :: blocks))
-
-  left (i ** (FS p, block :: blocks)) = ?qwer
+  ----------------------------------------
 
   print color (0 ** (FZ, [(curr, (0 ** FZ))])) =
     (0 ** (FZ, [(color, (0 ** FZ))]))
@@ -112,3 +100,21 @@ Tape MacroTape where
       Left  p => ?asdf_1
 
   print color (S i ** (pos, blocks)) = ?asdf_2
+
+  ----------------------------------------
+
+  left (i ** (FZ, (0, (j ** FZ)) :: rest)) =
+    (i ** (FZ, (0, (S j ** FZ)) :: rest))
+
+  left (i ** (FZ, (c, (j ** FS p)) :: rest)) =
+    (i ** (FZ, (c, (j ** weaken p)) :: rest))
+
+  left (i ** (FZ, blocks @ ((c, (_ ** FZ)) :: _))) =
+    let newBlock = (0, (1 ** FZ)) in
+      (S i ** (FZ, newBlock :: blocks))
+
+  left (i ** (FS p, block :: blocks)) = ?qwer
+
+  ----------------------------------------
+
+  right tape = ?zxcv
