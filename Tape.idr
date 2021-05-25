@@ -90,7 +90,7 @@ Tape MacroTape where
   print color (0 ** (FZ, [(curr, (0 ** FZ))])) =
     (0 ** (FZ, [(color, (0 ** FZ))]))
 
-  print color tape@(0 ** (FZ, [(curr, (S j ** FZ))])) =
+  print color (0 ** (FZ, [(curr, (S j ** FZ))])) =
     let
       newBlock = (color, (0 ** FZ))
       oldBlock = (curr, (j ** FZ))
@@ -98,6 +98,8 @@ Tape MacroTape where
       (1 ** (FZ, [newBlock] ++ [oldBlock]))
 
   print color (0 ** (FZ, [(curr, (S j ** FS p))])) =
-    ?asdf
+    case strengthen $ FS p of
+      Right x => ?asdf_3
+      Left  x => ?asdf_1
 
   print color (S i ** (pos, blocks)) = ?asdf_2
