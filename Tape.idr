@@ -81,4 +81,17 @@ Tape MacroTape where
 
   right tape = ?zxcv
 
-  left tape = ?asdf
+  left (i ** (FZ, (0, (j ** FZ)) :: rest)) =
+    (i ** (FZ, (0, (S j ** FZ)) :: rest))
+
+  left (i ** (FZ, (0, (j ** FS p)) :: rest)) =
+    (i ** (FZ, (0, (j ** weaken p)) :: rest))
+
+  left (i ** (FZ, blocks @ ((c, (_ ** FZ)) :: _))) =
+    let newBlock = (0, (1 ** FZ)) in
+      (S i ** (FZ, newBlock :: blocks))
+
+  left (i ** (FZ, (c, (j ** FS p)) :: rest)) =
+    (i ** (FZ, (c, (j ** weaken p)) :: rest))
+
+  left (i ** (FS p, block :: blocks)) = ?asdf
