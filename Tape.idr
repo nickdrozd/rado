@@ -81,8 +81,4 @@ Tape MacroTape where
 
   right tape = ?zxcv
 
-  left (i ** (blockNum, blocks)) =
-    let block = index blockNum blocks in
-      case block of
-        (0, y) => ?asdf_2
-        (_, y) => ?asdf_3
+  left tape = ?asdf
