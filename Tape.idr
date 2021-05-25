@@ -82,10 +82,10 @@ Tape MacroTape where
   right tape = ?zxcv
 
   left (i ** (FZ, (0, (j ** FZ)) :: rest)) =
-    (S i ** (?q, ?w))
+    (i ** (FZ, (0, (S j ** FZ)) :: rest))
 
-  left (i ** (FZ, (0, (j ** (FS x))) :: _)) = ?asdf_7
+  left (i ** (FZ, (0, (j ** FS x)) :: rest)) = ?asdf_6
 
-  left (i ** (FZ, (_, r) :: _)) = ?asdf_5
+  left (i ** (FZ, (_, r) :: rest)) = ?asdf_4
 
-  left (i ** (FS x, blocks)) = ?asdf_3
+  left (i ** (FS p, blocks)) = ?asdf_2
