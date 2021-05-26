@@ -55,25 +55,10 @@ Tape MicroTape where
 
 ----------------------------------------
 
-MacroTapeBlock : Type
-MacroTapeBlock = (Color, (j : Nat ** Fin (S j)))
-
--- Show MacroTapeBlock where
---   show x = "not implemented"
-
--- Tape MacroTapeBlock where
---   blank = (0, (0 ** FZ))
-
---   read (color, _) = color
-
---   print color (c, _) = ?px
-
---   left  tape = ?lx
-
---   right tape = ?rx
-
 MacroTape : Type
-MacroTape = (i : Nat ** (Fin (S i), Vect (S i) MacroTapeBlock))
+MacroTape = (i : Nat ** (Fin (S i), Vect (S i) Block)) where
+  Block : Type
+  Block = (Color, (j : Nat ** Fin (S j)))
 
 Show MacroTape where
   show x = "not implemented"
@@ -120,4 +105,4 @@ Tape MacroTape where
 
   ----------------------------------------
 
-  right tape = ?zxcv
+  right (i ** (pos, blocks)) = ?zxcv
