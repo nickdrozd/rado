@@ -72,37 +72,12 @@ Tape MacroTape where
 
   ----------------------------------------
 
-  print color (0 ** (FZ, [(curr, (0 ** FZ))])) =
-    (0 ** (FZ, [(color, (0 ** FZ))]))
+  print color tape = ?qwer
 
-  print color (0 ** (FZ, [(curr, (S j ** FZ))])) =
-    let
-      newBlock = (color, (0 ** FZ))
-      oldBlock = (curr, (j ** FZ))
-    in
-      (1 ** (FZ, [newBlock] ++ [oldBlock]))
-
-  print color (0 ** (FZ, [(curr, (S j ** pos))])) =
-    case strengthen pos of
-      Right p => ?asdf_3
-      Left  p => ?asdf_1
-
-  print color (S i ** (pos, blocks)) = ?asdf_2
+  right tape = ?zxcv
 
   ----------------------------------------
 
-  left (i ** (FZ, (0, (j ** FZ)) :: rest)) =
-    (i ** (FZ, (0, (S j ** FZ)) :: rest))
+  left (i ** (FZ, blocks)) = ?asdf_1
 
-  left (i ** (FZ, (c, (j ** FS p)) :: rest)) =
-    (i ** (FZ, (c, (j ** weaken p)) :: rest))
-
-  left (i ** (FZ, blocks @ ((c, (_ ** FZ)) :: _))) =
-    let newBlock = (0, (1 ** FZ)) in
-      (S i ** (FZ, newBlock :: blocks))
-
-  left (i ** (FS p, block :: blocks)) = ?qwer
-
-  ----------------------------------------
-
-  right (i ** (pos, blocks)) = ?zxcv
+  left (i ** (FS p, blocks)) = ?asdf_2
