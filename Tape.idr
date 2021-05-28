@@ -64,10 +64,10 @@ MacroTape = (i : Nat ** (Fin (S i), Vect (S i) Block)) where
   Block : Type
   Block = (Color, (j : Nat ** Fin (S j)))
 
-Show MacroTape where
-  show x = "not implemented"
-
 Tape MacroTape where
+  marks _ = ?rtyu
+  cells _ = ?dfgh
+
   blank = (0 ** (FZ, [(0, (0 ** FZ))]))
 
   read (_ ** (blockIndex, blocks)) =
