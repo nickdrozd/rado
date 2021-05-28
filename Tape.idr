@@ -87,6 +87,13 @@ Tape MacroTape where
   left (0 ** (FZ, [(c, (j ** FS p))])) =
     (0 ** (FZ, [(c, (j ** weaken p))]))
 
-  left (S k ** (FZ, blocks)) = ?asdf_1
+  left (S i ** (FZ, (0, (j ** FZ)) :: rest)) =
+    (S i ** (FZ, (0, (S j ** FZ)) :: rest))
 
-  left (S k ** (FS p, blocks)) = ?asdf_2
+  left (S i ** (FZ, blocks@((S _, (j ** FZ)) :: rest))) =
+    (S $ S i ** (FZ, (0, (0 ** FZ)) :: blocks))
+
+  left (S i ** (FZ, (c, (j ** FS p)) :: rest)) =
+    (S i ** (FZ, (c, (j ** weaken p)) :: rest))
+
+  left (S i ** (FS p, block :: rest)) = ?asdf_2
