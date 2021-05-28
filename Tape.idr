@@ -96,7 +96,12 @@ Tape MacroTape where
   left (S i ** (FZ, (c, (j ** FS p)) :: rest)) =
     (S i ** (FZ, (c, (j ** weaken p)) :: rest))
 
-  left (S i ** (FS FZ, b0 :: b1 :: rest)) = ?asdf
+  left (S i ** (FS FZ, b0 :: b1@(_, (_ ** FZ)) :: rest)) =
+    -- check what's inside b0?
+    (S i ** (FZ, b0 :: b1 :: rest))
+
+  left (S i ** (FS FZ, b0 :: (c, (j ** FS p)) :: rest)) =
+    (S i ** (FS FZ, b0 :: (c, (j ** weaken p)) :: rest))
 
   left (S i ** (FS $ FS p, block :: rest)) =
     let (k ** (pos, blocks)) = left (the MacroTape (i ** (FS p, rest))) in
