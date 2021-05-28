@@ -96,4 +96,5 @@ Tape MacroTape where
   left (S i ** (FZ, (c, (j ** FS p)) :: rest)) =
     (S i ** (FZ, (c, (j ** weaken p)) :: rest))
 
-  left (S i ** (FS p, block :: rest)) = ?asdf_2
+  left (S i ** (FS p, block :: rest)) =
+    ?asdf
