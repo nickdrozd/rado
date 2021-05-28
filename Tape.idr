@@ -74,60 +74,66 @@ Tape MacroTape where
     let (color, _) = index blockIndex blocks in
       color
 
-  ----------------------------------------
-
-  print color tape = ?qwer
-
-  ----------------------------------------
-
-  right (0 ** (FZ, [(c, (j ** pos))])) =
-    case strengthen pos of
-      Right p => (0 ** (FZ, [(c, (j ** FS p))]))
-      Left  p =>
-        case c of
-          0 => (0 ** (FZ, [(0, (S j ** FS p))]))
-          _ => (1 ** (FS FZ, (c, (j ** pos)) :: [(0, (0 ** FZ))]))
-
-  right (S i ** (FZ, (c0, (j0 ** p0)) :: (c1, (j1 ** p1)) :: blocks)) =
-    case strengthen p0 of
-      Right ps =>
-        (S i ** (FZ, (c0, (j0 ** FS ps)) :: (c1, (j1 ** p1)) :: blocks))
-      Left  _ =>
-        (S i ** (FS FZ, (c0, (j0 ** p0)) :: (c1, (j1 ** FZ)) :: blocks))
-
-  right (S i ** (FS p, block :: blocks)) =
-    let
-      (k ** (pos, rest)) = right (the MacroTape (i ** (p, blocks)))
-    in
-      (S k ** (FS pos, block :: rest))
+  right _ = ?qwer
+  left _ = ?wert
 
   ----------------------------------------
 
-  left (0 ** (FZ, [(0, (j ** FZ))])) =
-    (0 ** (FZ, [(0, (S j ** FZ))]))
+  print cx (0 ** (FZ, [(c0, (j ** FZ))])) = ?asdf_1
+  print cx (0 ** (FZ, [(c0, (j ** FS p))])) = ?asdf_3
 
-  left (0 ** (FZ, [block@(c, (j ** FZ))])) =
-    (1 ** (FZ, (0, (0 ** FZ)) :: [block]))
+  print cx (S i ** (pos, blocks)) = ?asdf_2
 
-  left (0 ** (FZ, [(c, (j ** FS p))])) =
-    (0 ** (FZ, [(c, (j ** weaken p))]))
+  ----------------------------------------
 
-  left (S i ** (FZ, (0, (j ** FZ)) :: rest)) =
-    (S i ** (FZ, (0, (S j ** FZ)) :: rest))
+  -- right (0 ** (FZ, [(c, (j ** pos))])) =
+  --   case strengthen pos of
+  --     Right p => (0 ** (FZ, [(c, (j ** FS p))]))
+  --     Left  p =>
+  --       case c of
+  --         0 => (0 ** (FZ, [(0, (S j ** FS p))]))
+  --         _ => (1 ** (FS FZ, (c, (j ** pos)) :: [(0, (0 ** FZ))]))
 
-  left (S i ** (FZ, blocks@((S _, (j ** FZ)) :: rest))) =
-    (S $ S i ** (FZ, (0, (0 ** FZ)) :: blocks))
+  -- right (S i ** (FZ, (c0, (j0 ** p0)) :: (c1, (j1 ** p1)) :: blocks)) =
+  --   case strengthen p0 of
+  --     Right ps =>
+  --       (S i ** (FZ, (c0, (j0 ** FS ps)) :: (c1, (j1 ** p1)) :: blocks))
+  --     Left  _ =>
+  --       (S i ** (FS FZ, (c0, (j0 ** p0)) :: (c1, (j1 ** FZ)) :: blocks))
 
-  left (S i ** (FZ, (c, (j ** FS p)) :: rest)) =
-    (S i ** (FZ, (c, (j ** weaken p)) :: rest))
+  -- right (S i ** (FS p, block :: blocks)) =
+  --   let
+  --     (k ** (pos, rest)) = right (the MacroTape (i ** (p, blocks)))
+  --   in
+  --     (S k ** (FS pos, block :: rest))
 
-  left (S i ** (FS FZ, b0 :: b1@(_, (_ ** FZ)) :: rest)) =
-    -- check what's inside b0?
-    (S i ** (FZ, b0 :: b1 :: rest))
+  -- ----------------------------------------
 
-  left (S i ** (FS FZ, b0 :: (c, (j ** FS p)) :: rest)) =
-    (S i ** (FS FZ, b0 :: (c, (j ** weaken p)) :: rest))
+  -- left (0 ** (FZ, [(0, (j ** FZ))])) =
+  --   (0 ** (FZ, [(0, (S j ** FZ))]))
 
-  left (S i ** (FS $ FS p, block :: rest)) =
-    let (k ** (pos, blocks)) = left (the MacroTape (i ** (FS p, rest))) in
-      (S k ** (FS pos, block :: blocks))
+  -- left (0 ** (FZ, [block@(c, (j ** FZ))])) =
+  --   (1 ** (FZ, (0, (0 ** FZ)) :: [block]))
+
+  -- left (0 ** (FZ, [(c, (j ** FS p))])) =
+  --   (0 ** (FZ, [(c, (j ** weaken p))]))
+
+  -- left (S i ** (FZ, (0, (j ** FZ)) :: rest)) =
+  --   (S i ** (FZ, (0, (S j ** FZ)) :: rest))
+
+  -- left (S i ** (FZ, blocks@((S _, (j ** FZ)) :: rest))) =
+  --   (S $ S i ** (FZ, (0, (0 ** FZ)) :: blocks))
+
+  -- left (S i ** (FZ, (c, (j ** FS p)) :: rest)) =
+  --   (S i ** (FZ, (c, (j ** weaken p)) :: rest))
+
+  -- left (S i ** (FS FZ, b0 :: b1@(_, (_ ** FZ)) :: rest)) =
+  --   -- check what's inside b0?
+  --   (S i ** (FZ, b0 :: b1 :: rest))
+
+  -- left (S i ** (FS FZ, b0 :: (c, (j ** FS p)) :: rest)) =
+  --   (S i ** (FS FZ, b0 :: (c, (j ** weaken p)) :: rest))
+
+  -- left (S i ** (FS $ FS p, block :: rest)) =
+  --   let (k ** (pos, blocks)) = left (the MacroTape (i ** (FS p, rest))) in
+  --     (S k ** (FS pos, block :: blocks))
