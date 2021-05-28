@@ -78,13 +78,15 @@ Tape MacroTape where
 
   ----------------------------------------
 
-  left (i ** (FZ, (0, (j ** FZ)) :: blocks)) =
-    (i ** (FZ, (0, (S j ** FZ)) :: blocks))
+  left (0 ** (FZ, [(0, (j ** FZ))])) =
+    (0 ** (FZ, [(0, (S j ** FZ))]))
 
-  left (i ** (FZ, block@(c, (j ** FZ)) :: blocks)) =
-    (S i ** (FZ, (0, (0 ** FZ)) :: block :: blocks))
+  left (0 ** (FZ, [block@(c, (j ** FZ))])) =
+    (1 ** (FZ, (0, (0 ** FZ)) :: [block]))
 
-  left (i ** (FZ, (c, (j ** FS p)) :: blocks)) =
-    (i ** (FZ, (c, (j ** weaken p)) :: blocks))
+  left (0 ** (FZ, [(c, (j ** FS p))])) =
+    (0 ** (FZ, [(c, (j ** weaken p))]))
 
-  left (S i ** (FS p, blocks)) = ?asdf_2
+  left (S k ** (FZ, blocks)) = ?asdf_1
+
+  left (S k ** (FS p, blocks)) = ?asdf_2
