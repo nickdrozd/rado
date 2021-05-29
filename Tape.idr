@@ -59,11 +59,13 @@ Tape MicroTape where
 
 ----------------------------------------
 
+public export
 MacroTape : Type
 MacroTape = (i : Nat ** (Fin (S i), Vect (S i) Block)) where
   Block : Type
   Block = (Color, (j : Nat ** Fin (S j)))
 
+public export
 Tape MacroTape where
   marks _ = 0
   cells _ = 0
