@@ -81,8 +81,15 @@ Tape MacroTape where
 
   ----------------------------------------
 
-  print cx (0 ** (FZ, [(c0, (j ** FZ))])) = ?asdf_1
-  print cx (0 ** (FZ, [(c0, (j ** FS p))])) = ?asdf_3
+  print cx (0 ** (FZ, [(c0, (0 ** FZ))])) =
+    (0 ** (FZ, [(cx, (0 ** FZ))]))
+
+  print cx tape@(0 ** (FZ, [(c0, (S k ** FZ))])) =
+    if cx == c0 then tape else
+      let newblock = (cx, (0 ** FZ)) in
+        (1 ** (FZ, newblock :: [(c0, (k ** FZ))]))
+
+  print cx (0 ** (FZ, [(c0, (S k ** FS p))])) = ?asdf_6
 
   print cx (S i ** (pos, blocks)) = ?asdf_2
 
