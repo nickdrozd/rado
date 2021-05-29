@@ -81,8 +81,9 @@ Tape MacroTape where
 
   ----------------------------------------
 
-  print cx (0 ** (FZ, [(c0, (0 ** FZ))])) =
-    (0 ** (FZ, [(cx, (0 ** FZ))]))
+  print cx tape@(0 ** (FZ, [(c0, (0 ** FZ))])) =
+    if cx == c0 then tape else
+      (0 ** (FZ, [(cx, (0 ** FZ))]))
 
   print cx tape@(0 ** (FZ, [(c0, (S k ** FZ))])) =
     if cx == c0 then tape else
