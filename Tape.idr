@@ -59,11 +59,26 @@ Tape MicroTape where
 
 ----------------------------------------
 
+MacroBlock : Type
+MacroBlock = (Color, (j : Nat ** Fin (S j)))
+
+data SplitBlock
+  = NoChange
+  | SplitBeg MacroBlock MacroBlock
+  | SplitMid MacroBlock MacroBlock MacroBlock
+  | SplitEnd MacroBlock MacroBlock
+
+splitPrint : Color -> MacroBlock -> SplitBlock
+splitPrint k (c, block) =
+  if k == c then NoChange else
+    case block of
+      (Z ** FZ) => ?asd
+      (S j ** FZ) => ?qwe
+      (S j ** FS p) => ?xcv
+
 public export
 MacroTape : Type
-MacroTape = (i : Nat ** (Fin (S i), Vect (S i) Block)) where
-  Block : Type
-  Block = (Color, (j : Nat ** Fin (S j)))
+MacroTape = (i : Nat ** (Fin (S i), Vect (S i) MacroBlock))
 
 public export
 Tape MacroTape where
@@ -81,18 +96,7 @@ Tape MacroTape where
 
   ----------------------------------------
 
-  print cx tape@(0 ** (FZ, [(c0, (0 ** FZ))])) =
-    if cx == c0 then tape else
-      (0 ** (FZ, [(cx, (0 ** FZ))]))
-
-  print cx tape@(0 ** (FZ, [(c0, (S k ** FZ))])) =
-    if cx == c0 then tape else
-      let newblock = (cx, (0 ** FZ)) in
-        (1 ** (FZ, newblock :: [(c0, (k ** FZ))]))
-
-  print cx (0 ** (FZ, [(c0, (S k ** FS p))])) = ?asdf_6
-
-  print cx (S i ** (pos, blocks)) = ?asdf_2
+  print color tape = ?sdfg
 
   ----------------------------------------
 
