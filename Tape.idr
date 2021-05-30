@@ -9,8 +9,8 @@ import Program
 
 public export
 interface Tape tape where
-  marks : tape -> Nat
   cells : tape -> Nat
+  marks : tape -> Nat
 
   blank : tape
 
@@ -36,8 +36,8 @@ MicroTape = (i : Nat ** (Fin (S i), Vect (S i) Color))
 
 public export
 Tape MicroTape where
-  marks (_ ** (_, tape)) = let (n ** _) = filter ((/=) 0) tape in n
   cells (_ ** (_, tape))  = length tape
+  marks (_ ** (_, tape)) = let (n ** _) = filter ((/=) 0) tape in n
 
   blank = (Z ** (FZ, [0]))
 
@@ -64,17 +64,21 @@ MacroBlock = (Color, (j : Nat ** Fin (S j)))
 
 data SplitBlock
   = NoChange
+  | Replaced MacroBlock
   | SplitBeg MacroBlock MacroBlock
   | SplitMid MacroBlock MacroBlock MacroBlock
   | SplitEnd MacroBlock MacroBlock
 
 splitPrint : Color -> MacroBlock -> SplitBlock
-splitPrint k (c, block) =
-  if k == c then NoChange else
+splitPrint q (c, block) =
+  if c == q then NoChange else
     case block of
-      (Z ** FZ) => ?asd
-      (S j ** FZ) => ?qwe
-      (S j ** FS p) => ?xcv
+      (Z ** FZ) => Replaced (q, (Z ** FZ))
+      (S j ** FZ) => SplitBeg (q, (Z ** FZ)) (c, (j ** FZ))
+      (S j ** FS pos) =>
+        case strengthen (FS pos) of
+          Left  _ => SplitEnd (c, (j ** pos)) (q, (Z ** FZ))
+          Right p => ?asd
 
 public export
 MacroTape : Type
@@ -82,8 +86,8 @@ MacroTape = (i : Nat ** (Fin (S i), Vect (S i) MacroBlock))
 
 public export
 Tape MacroTape where
+  cells (_ ** (_, blocks)) = 0
   marks _ = 0
-  cells _ = 0
 
   blank = (0 ** (FZ, [(0, (0 ** FZ))]))
 
@@ -96,7 +100,16 @@ Tape MacroTape where
 
   ----------------------------------------
 
-  print color tape = ?sdfg
+  print color (0 ** (FZ, [block])) = ?sdfg_3
+
+  print color (S i ** (FZ, block :: blocks)) = ?sdfg_4
+
+  print color (S i ** (FS p, block :: blocks)) =
+    let
+      tail = the MacroTape (i ** (p, blocks))
+      (j ** (pos, edge :: rest)) = print color tail
+    in
+      ?asdf
 
   ----------------------------------------
 
