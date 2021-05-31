@@ -108,15 +108,17 @@ Tape MacroTape where
 
   print cx (S k ** (FZ, blocks)) = ?asdf_3
 
-  print cx tape@(S k ** (FS FZ, b0 :: b1@(c1, (l1 ** p1)) :: bs)) =
-    if cx == c1 then tape else case p1 of
-      FZ   => ?asdf
-      FS p =>
-        let
-          tail = the MacroTape (k ** (FZ, b1 :: bs))
-          (j ** (pos, blocks)) = print cx tail
-        in
-          (S j ** (FS pos, b0 :: blocks))
+  print cx tape@(S k ** (FS FZ, b0@(c0, _) :: b1@(c1, (l1 ** FZ)) :: bs)) =
+    if cx == c1 then tape else
+      ?asdf
+
+  print cx tape@(S k ** (FS FZ, b0 :: b1@(c1, (_ ** FS p)) :: bs)) =
+    if cx == c1 then tape else
+      let
+         tail = the MacroTape (k ** (FZ, b1 :: bs))
+         (j ** (pos, blocks)) = print cx tail
+       in
+         (S j ** (FS pos, b0 :: blocks))
 
   print cx (S k ** (FS $ FS p, b0 :: b1 :: rest)) =
     let
