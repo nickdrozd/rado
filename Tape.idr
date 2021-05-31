@@ -100,16 +100,18 @@ Tape MacroTape where
 
   ----------------------------------------
 
-  print color (0 ** (FZ, [block])) = ?sdfg_3
+  print color (0 ** (FZ, blocks)) = ?asdf_1
 
-  print color (S i ** (FZ, block :: blocks)) = ?sdfg_4
+  print color (S k ** (FZ, blocks)) = ?asdf_3
 
-  print color (S i ** (FS p, block :: blocks)) =
+  print color (S k ** (FS FZ, blocks)) = ?asdf_5
+
+  print color (S k ** (FS $ FS p, b0 :: b1 :: rest)) =
     let
-      tail = the MacroTape (i ** (p, blocks))
-      (j ** (pos, edge :: rest)) = print color tail
+      tail = the MacroTape (k ** (FS p, b1 :: rest))
+      (j ** (pos, blocks)) = print color tail
     in
-      ?asdf
+      (S j ** (FS pos, b0 :: blocks))
 
   ----------------------------------------
 
