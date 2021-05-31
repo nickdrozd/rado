@@ -104,7 +104,13 @@ Tape MacroTape where
 
   print color (S k ** (FZ, blocks)) = ?asdf_3
 
-  print color (S k ** (FS FZ, blocks)) = ?asdf_5
+  print color (S k ** (FS FZ, (c0, b0) :: rest)) =
+    let
+      tail = the MacroTape (k ** (FZ, rest))
+      (j ** (pos, (c1, b1) :: blocks)) = print color tail
+    in
+      ?asdf
+
 
   print color (S k ** (FS $ FS p, b0 :: b1 :: rest)) =
     let
