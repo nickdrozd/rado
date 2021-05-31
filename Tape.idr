@@ -100,22 +100,24 @@ Tape MacroTape where
 
   ----------------------------------------
 
-  print color (0 ** (FZ, blocks)) = ?asdf_1
+  print cx (0 ** (FZ, blocks)) = ?asdf_1
 
-  print color (S k ** (FZ, blocks)) = ?asdf_3
+  print cx (S k ** (FZ, blocks)) = ?asdf_3
 
-  print color (S k ** (FS FZ, (c0, b0) :: rest)) =
-    let
-      tail = the MacroTape (k ** (FZ, rest))
-      (j ** (pos, (c1, b1) :: blocks)) = print color tail
-    in
-      ?asdf
+  print cx tape@(S k ** (FS FZ, b0 :: b1@(c1, (l1 ** p1)) :: bs)) =
+    if cx == c1 then tape else case p1 of
+      FZ   => ?asdf
+      FS p =>
+        let
+          tail = the MacroTape (k ** (FZ, b1 :: bs))
+          (j ** (pos, blocks)) = print cx tail
+        in
+          (S j ** (FS pos, b0 :: blocks))
 
-
-  print color (S k ** (FS $ FS p, b0 :: b1 :: rest)) =
+  print cx (S k ** (FS $ FS p, b0 :: b1 :: rest)) =
     let
       tail = the MacroTape (k ** (FS p, b1 :: rest))
-      (j ** (pos, blocks)) = print color tail
+      (j ** (pos, blocks)) = print cx tail
     in
       (S j ** (FS pos, b0 :: blocks))
 
