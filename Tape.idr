@@ -108,9 +108,7 @@ Tape MacroTape where
 
   print cx (S k ** (FZ, blocks)) = ?asdf_3
 
-  print cx tape@(S k ** (FS FZ, b0@(c0, _) :: b1@(c1, (l1 ** FZ)) :: bs)) =
-    if cx == c1 then tape else
-      ?asdf
+  print cx tape@(S k ** (FS FZ, b0@(c0, _) :: b1@(c1, (l1 ** FZ)) :: bs)) = ?asdf
 
   print cx tape@(S k ** (FS FZ, b0 :: b1@(c1, (_ ** FS p)) :: bs)) =
     if cx == c1 then tape else
