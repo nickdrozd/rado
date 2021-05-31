@@ -86,8 +86,12 @@ MacroTape = (i : Nat ** (Fin (S i), Vect (S i) MacroBlock))
 
 public export
 Tape MacroTape where
-  cells (_ ** (_, blocks)) = 0
-  marks _ = 0
+  cells (_ ** (_, blocks)) =
+    foldl (\acc, (_, (i ** _)) => S i + acc) 0 blocks
+
+  marks (_ ** (_, blocks)) =
+    foldl (\acc, (c, (i ** _)) =>
+                 (if c == 0 then 0 else S i) + acc) 0 blocks
 
   blank = (0 ** (FZ, [(0, (0 ** FZ))]))
 
