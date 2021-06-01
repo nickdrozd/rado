@@ -151,17 +151,17 @@ Tape MacroTape where
 
   ----------------------------------------
 
-  left (0 ** (FZ, [block@(c, (j ** FZ))])) =
-    (1 ** (FZ, (0, (0 ** FZ)) :: [block]))
+  left (0 ** (FZ, block@[(S _, (j ** FZ))])) =
+    (1 ** (FZ, (0, (0 ** FZ)) :: block))
+
+  left (S i ** (FZ, blocks@((S _, (j ** FZ)) :: rest))) =
+    (S $ S i ** (FZ, (0, (0 ** FZ)) :: blocks))
 
   left (0 ** (FZ, (c, (j ** FS p)) :: rest)) =
     (0 ** (FZ, (c, (j ** weaken p)) :: rest))
 
   left (S i ** (FZ, (c, (j ** FS p)) :: rest)) =
     (S i ** (FZ, (c, (j ** weaken p)) :: rest))
-
-  left (S i ** (FZ, blocks@((S _, (j ** FZ)) :: rest))) =
-    (S $ S i ** (FZ, (0, (0 ** FZ)) :: blocks))
 
   left (S i ** (FS FZ, b0 :: b1@(_, (_ ** FZ)) :: rest)) =
     -- check what's inside b0?
@@ -176,3 +176,14 @@ Tape MacroTape where
 
   left (i ** (FZ, (0, (j ** FZ)) :: rest)) =
     (i ** (FZ, (0, (S j ** FZ)) :: rest))
+
+  -- -- why won't this work?
+  -- left (i ** (FZ, (c, (j ** FZ)) :: blocks)) =
+  --   case c of
+  --     0 => (  i ** (FZ, (0, (S j ** FZ)) :: blocks))
+  --     _ => (S i ** (FZ, (0, (0 ** FZ)) :: (c, (j ** FZ)) :: blocks))
+
+  -- left (i ** (FZ, (c, (j ** FS p)) :: blocks)) =
+  --   (i ** (FZ, (c, (j ** weaken p)) :: blocks))
+
+  -- left (S i ** (FS p, blocks)) = ?asdf_4
