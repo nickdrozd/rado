@@ -151,17 +151,11 @@ Tape MacroTape where
 
   ----------------------------------------
 
-  left (0 ** (FZ, [(0, (j ** FZ))])) =
-    (0 ** (FZ, [(0, (S j ** FZ))]))
-
   left (0 ** (FZ, [block@(c, (j ** FZ))])) =
     (1 ** (FZ, (0, (0 ** FZ)) :: [block]))
 
   left (0 ** (FZ, [(c, (j ** FS p))])) =
     (0 ** (FZ, [(c, (j ** weaken p))]))
-
-  left (S i ** (FZ, (0, (j ** FZ)) :: rest)) =
-    (S i ** (FZ, (0, (S j ** FZ)) :: rest))
 
   left (S i ** (FZ, blocks@((S _, (j ** FZ)) :: rest))) =
     (S $ S i ** (FZ, (0, (0 ** FZ)) :: blocks))
@@ -179,3 +173,6 @@ Tape MacroTape where
   left (S i ** (FS $ FS p, block :: rest)) =
     let (k ** (pos, blocks)) = left (the MacroTape (i ** (FS p, rest))) in
       (S k ** (FS pos, block :: blocks))
+
+  left (i ** (FZ, (0, (j ** FZ)) :: rest)) =
+    (i ** (FZ, (0, (S j ** FZ)) :: rest))
