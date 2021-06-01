@@ -154,14 +154,14 @@ Tape MacroTape where
   left (0 ** (FZ, [block@(c, (j ** FZ))])) =
     (1 ** (FZ, (0, (0 ** FZ)) :: [block]))
 
-  left (0 ** (FZ, [(c, (j ** FS p))])) =
-    (0 ** (FZ, [(c, (j ** weaken p))]))
-
-  left (S i ** (FZ, blocks@((S _, (j ** FZ)) :: rest))) =
-    (S $ S i ** (FZ, (0, (0 ** FZ)) :: blocks))
+  left (0 ** (FZ, (c, (j ** FS p)) :: rest)) =
+    (0 ** (FZ, (c, (j ** weaken p)) :: rest))
 
   left (S i ** (FZ, (c, (j ** FS p)) :: rest)) =
     (S i ** (FZ, (c, (j ** weaken p)) :: rest))
+
+  left (S i ** (FZ, blocks@((S _, (j ** FZ)) :: rest))) =
+    (S $ S i ** (FZ, (0, (0 ** FZ)) :: blocks))
 
   left (S i ** (FS FZ, b0 :: b1@(_, (_ ** FZ)) :: rest)) =
     -- check what's inside b0?
