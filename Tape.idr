@@ -135,18 +135,19 @@ Tape MacroTape where
           0 => (0 ** (FZ, [(0, (S j ** FS p))]))
           _ => (1 ** (FS FZ, (c, (j ** pos)) :: [(0, (0 ** FZ))]))
 
-  right (S i ** (FZ, (c0, (j0 ** p0)) :: (c1, (j1 ** p1)) :: blocks)) =
-    case strengthen p0 of
-      Right ps =>
-        (S i ** (FZ, (c0, (j0 ** FS ps)) :: (c1, (j1 ** p1)) :: blocks))
+  right (S i ** (FZ, (c, (j ** pos)) :: blocks)) =
+    case strengthen pos of
+      Right p => (S i ** (FZ, (c, (j ** FS p)) :: blocks))
       Left  _ =>
-        (S i ** (FS FZ, (c0, (j0 ** p0)) :: (c1, (j1 ** FZ)) :: blocks))
+        let (q, (k ** _)) :: rest = blocks in
+          (S i ** (FS FZ, (c, (j ** pos)) :: (q, (k **  FZ)) :: rest))
 
-  right (S i ** (FS p, block :: blocks)) =
+  right (S i ** (FS p, b0 :: rest)) =
     let
-      (k ** (pos, rest)) = right (the MacroTape (i ** (p, blocks)))
+      tail = the MacroTape (i ** (p, rest))
+      (j ** (pos, blocks)) = right tail
     in
-      (S k ** (FS pos, block :: rest))
+      (S j ** (FS pos, b0 :: blocks))
 
   ----------------------------------------
 
