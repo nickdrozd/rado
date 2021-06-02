@@ -99,14 +99,20 @@ Tape MacroTape where
     let (color, _) = index blockIndex blocks in
       color
 
-  -- right _ = ?qwer
-  -- left _ = ?wert
+  right _ = ?qwer
+  left _ = ?wert
 
   ----------------------------------------
 
   print cx (0 ** (FZ, [block])) = ?asdf_1
 
-  print cx (S k ** (FZ, block :: blocks)) = ?asdf_3
+  print cx tape@(S k ** (FZ, b0 :: b1@(c1, _) :: bs)) =
+    case splitPrint cx b0 of
+      NoChange       => tape
+      Replaced x     => ?asdf_5
+      SplitBeg x y   => (S $ S k ** (FZ, x :: y :: b1 :: bs))
+      SplitMid x y z => ?asdf_7
+      SplitEnd   y z => ?asdf_8
 
   print cx (S k ** (FS FZ, b0 :: b1 :: bs)) = ?asdf
 
@@ -119,65 +125,54 @@ Tape MacroTape where
 
   ----------------------------------------
 
-  right (0 ** (FZ, [(c, (j ** pos))])) =
-    case strengthen pos of
-      Right p => (0 ** (FZ, [(c, (j ** FS p))]))
-      Left  p =>
-        case c of
-          0 => (0 ** (FZ, [(0, (S j ** FS p))]))
-          _ => (1 ** (FS FZ, (c, (j ** pos)) :: [(0, (0 ** FZ))]))
+  -- right (0 ** (FZ, [(c, (j ** pos))])) =
+  --   case strengthen pos of
+  --     Right p => (0 ** (FZ, [(c, (j ** FS p))]))
+  --     Left  p =>
+  --       case c of
+  --         0 => (0 ** (FZ, [(0, (S j ** FS p))]))
+  --         _ => (1 ** (FS FZ, (c, (j ** pos)) :: [(0, (0 ** FZ))]))
 
-  right (S i ** (FZ, (c, (j ** pos)) :: blocks)) =
-    case strengthen pos of
-      Right p => (S i ** (FZ, (c, (j ** FS p)) :: blocks))
-      Left  _ =>
-        let (q, (k ** _)) :: rest = blocks in
-          (S i ** (FS FZ, (c, (j ** pos)) :: (q, (k **  FZ)) :: rest))
+  -- right (S i ** (FZ, (c, (j ** pos)) :: blocks)) =
+  --   case strengthen pos of
+  --     Right p => (S i ** (FZ, (c, (j ** FS p)) :: blocks))
+  --     Left  _ =>
+  --       let (q, (k ** _)) :: rest = blocks in
+  --         (S i ** (FS FZ, (c, (j ** pos)) :: (q, (k **  FZ)) :: rest))
 
-  right (S i ** (FS p, b0 :: rest)) =
-    let
-      tail = the MacroTape (i ** (p, rest))
-      (j ** (pos, blocks)) = right tail
-    in
-      (S j ** (FS pos, b0 :: blocks))
+  -- right (S i ** (FS p, b0 :: rest)) =
+  --   let
+  --     tail = the MacroTape (i ** (p, rest))
+  --     (j ** (pos, blocks)) = right tail
+  --   in
+  --     (S j ** (FS pos, b0 :: blocks))
 
   ----------------------------------------
 
-  left (0 ** (FZ, block@[(S _, (j ** FZ))])) =
-    (1 ** (FZ, (0, (0 ** FZ)) :: block))
-  left (S i ** (FZ, blocks@((S _, (j ** FZ)) :: rest))) =
-    (S $ S i ** (FZ, (0, (0 ** FZ)) :: blocks))
+  -- left (0 ** (FZ, block@[(S _, (j ** FZ))])) =
+  --   (1 ** (FZ, (0, (0 ** FZ)) :: block))
+  -- left (S i ** (FZ, blocks@((S _, (j ** FZ)) :: rest))) =
+  --   (S $ S i ** (FZ, (0, (0 ** FZ)) :: blocks))
 
-  left (0 ** (FZ, (c, (j ** FS p)) :: rest)) =
-    (0 ** (FZ, (c, (j ** weaken p)) :: rest))
-  left (S i ** (FZ, (c, (j ** FS p)) :: rest)) =
-    (S i ** (FZ, (c, (j ** weaken p)) :: rest))
+  -- left (0 ** (FZ, (c, (j ** FS p)) :: rest)) =
+  --   (0 ** (FZ, (c, (j ** weaken p)) :: rest))
+  -- left (S i ** (FZ, (c, (j ** FS p)) :: rest)) =
+  --   (S i ** (FZ, (c, (j ** weaken p)) :: rest))
 
-  left (S i ** (FS FZ, b0@(c, (j ** _)) :: b1@(_, (_ ** FZ)) :: rest)) =
-    -- check what's inside b0?
-    -- yes, figure out how to get max pos for j
-    (S i ** (FZ, b0 :: b1 :: rest))
+  -- left (S i ** (FS FZ, b0@(c, (j ** _)) :: b1@(_, (_ ** FZ)) :: rest)) =
+  --   -- check what's inside b0?
+  --   -- yes, figure out how to get max pos for j
+  --   (S i ** (FZ, b0 :: b1 :: rest))
 
-  left (S i ** (FS FZ, b0 :: (c, (j ** FS p)) :: rest)) =
-    (S i ** (FS FZ, b0 :: (c, (j ** weaken p)) :: rest))
+  -- left (S i ** (FS FZ, b0 :: (c, (j ** FS p)) :: rest)) =
+  --   (S i ** (FS FZ, b0 :: (c, (j ** weaken p)) :: rest))
 
-  left (S i ** (FS $ FS p, block :: rest)) =
-    let
-      tail = the MacroTape (i ** (FS p, rest))
-      (k ** (pos, blocks)) = left tail
-    in
-      (S k ** (FS pos, block :: blocks))
+  -- left (S i ** (FS $ FS p, block :: rest)) =
+  --   let
+  --     tail = the MacroTape (i ** (FS p, rest))
+  --     (k ** (pos, blocks)) = left tail
+  --   in
+  --     (S k ** (FS pos, block :: blocks))
 
-  left (i ** (FZ, (0, (j ** FZ)) :: rest)) =
-    (i ** (FZ, (0, (S j ** FZ)) :: rest))
-
-  -- -- why won't this work?
-  -- left (i ** (FZ, (c, (j ** FZ)) :: blocks)) =
-  --   case c of
-  --     0 => (  i ** (FZ, (0, (S j ** FZ)) :: blocks))
-  --     _ => (S i ** (FZ, (0, (0 ** FZ)) :: (c, (j ** FZ)) :: blocks))
-
-  -- left (i ** (FZ, (c, (j ** FS p)) :: blocks)) =
-  --   (i ** (FZ, (c, (j ** weaken p)) :: blocks))
-
-  -- left (S i ** (FS p, blocks)) = ?asdf_4
+  -- left (i ** (FZ, (0, (j ** FZ)) :: rest)) =
+  --   (i ** (FZ, (0, (S j ** FZ)) :: rest))
