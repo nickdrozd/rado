@@ -108,13 +108,24 @@ Tape MacroTape where
 
   print cx tape@(S k ** (FZ, b0 :: b1@(c1, _) :: bs)) =
     case splitPrint cx b0 of
-      NoChange       => tape
-      Replaced x     => ?asdf_5
-      SplitBeg x y   => (S $ S k ** (FZ, x :: y :: b1 :: bs))
-      SplitMid x y z => ?asdf_7
-      SplitEnd   y z => ?asdf_8
+      NoChange          =>
+        tape
+      Replaced bx       =>
+        ?asdf_5
+      SplitBeg bx bc    =>
+        (S $ S k ** (FZ, bx :: bc :: b1 :: bs))
+      SplitMid bc bx bd =>
+        (S $ S $ S k ** (FZ, bc :: bx :: bd :: b1 :: bs))
+      SplitEnd    bc bx =>
+        ?asdf_8
 
-  print cx (S k ** (FS FZ, b0 :: b1 :: bs)) = ?asdf
+  print cx tape@(S k ** (FS FZ, b0 :: b1 :: bs)) =
+    case splitPrint cx b1 of
+      NoChange       => tape
+      Replaced x     => ?zxcv_2
+      SplitBeg x y   => ?zxcv_3
+      SplitMid x y z => ?zxcv_4
+      SplitEnd   y z => ?zxcv_5
 
   print cx (S k ** (FS $ FS p, b0 :: b1 :: rest)) =
     let
