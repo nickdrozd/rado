@@ -70,15 +70,35 @@ data SplitBlock
   | SplitEnd MacroBlock MacroBlock
 
 splitPrint : Color -> MacroBlock -> SplitBlock
-splitPrint q (c, block) =
-  if c == q then NoChange else
-    case block of
-      (Z ** FZ) => Replaced (q, (Z ** FZ))
-      (S j ** FZ) => SplitBeg (q, (Z ** FZ)) (c, (j ** FZ))
+splitPrint cx (c0, coord) =
+  if c0 == cx then NoChange else
+    case coord of
+      (Z ** FZ) =>
+        Replaced (cx, (Z ** FZ))
+
+      (S j ** FZ) =>
+        SplitBeg (cx, (Z ** FZ)) (c0, (j ** FZ))
+
       (S j ** FS pos) =>
         case strengthen (FS pos) of
-          Left  _ => SplitEnd (c, (j ** pos)) (q, (Z ** FZ))
-          Right p => ?asd
+          Left  _ =>
+            SplitEnd (c0, (j ** pos)) (cx, (Z ** FZ))
+
+          Right p =>
+            case splitPrint cx (c0, (j ** p)) of
+              NoChange => NoChange
+
+              Replaced x =>
+                SplitEnd (c0, (0 ** FZ)) x
+
+              SplitBeg   x c =>
+                SplitMid (c0, (0 ** FZ)) x c
+
+              SplitMid (_, (k ** q)) x c =>
+                SplitMid (c0, (S k ** FS q)) x c
+
+              SplitEnd (_, (k ** q)) x =>
+                SplitEnd (c0, (S k ** FS q)) x
 
 public export
 MacroTape : Type
