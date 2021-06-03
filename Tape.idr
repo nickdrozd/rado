@@ -152,18 +152,27 @@ Tape MacroTape where
           then (S $ S k ** (FS FZ, a :: x :: b1 :: bs))
           else (    S k ** (FS FZ, a :: (c1, (S j ** FZ)) :: bs))
 
-  print cx tape@(S k ** (FS FZ, b0 :: b1 :: bs)) =
+  print cx tape@(S k ** (FS FZ, b0@(c0, (j0 ** p0)) :: b1 :: bs)) =
     case splitPrint cx b1 of
       NoChange       => tape
 
       SplitMid a x c =>
         (S $ S $ S k ** (FS $ FS FZ, b0 :: a :: x :: c :: bs))
 
+      SplitBeg   x c =>
+        if c0 == cx
+          then (    S k ** (FZ, (c0, (S j0 ** FS p0)) :: c :: bs))
+          else (S $ S k ** (FS FZ, b0 :: x :: c :: bs))
+
+      SplitEnd a x   =>
+        case bs of
+          [] => (2 ** (FS $ FS FZ, [b0, a, x]))
+          (c2, (j2 ** p2)) :: bs =>
+            if c2 == cx
+              then ?asdf
+              else ?zxcv
+
       Replaced   x   => ?zxcv_2
-
-      SplitBeg   x c => ?zxcv_3
-
-      SplitEnd a x   => ?zxcv_5
 
   print cx (S k ** (FS $ FS p, b0 :: rest)) =
     let
