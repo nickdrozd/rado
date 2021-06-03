@@ -168,7 +168,7 @@ Tape MacroTape where
   print cx (S k ** (FS $ FS p, b0 :: rest)) =
     let
       tail = the MacroTape (k ** (FS p, rest))
-      (j ** (pos, blocks)) = print cx tail
+      (  j ** (   pos,       blocks)) = print cx tail
     in
       (S j ** (FS pos, b0 :: blocks))
 
