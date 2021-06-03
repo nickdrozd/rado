@@ -6,23 +6,23 @@ import public Tape
 %default total
 
 public export
-interface Tape t => Machine t where
-  exec : Program -> State -> t -> (State, t)
-  exec prog state tape =
+interface Tape tape => Machine tape where
+  exec : Program -> State -> tape -> Nat -> (State, tape, Nat)
+  exec prog state tape count =
     let (color, dir, nextState) = prog state $ read tape in
-      (nextState, shift dir $ print color tape)
+      (nextState, shift dir $ print color tape, S count)
 
   partial
-  runToHalt : Nat -> Program -> State -> t -> (Nat, t)
-  runToHalt count prog state tape =
-    let (nextState, nextTape) = exec prog state tape in
+  run : Program -> State -> tape -> Nat -> (Nat, tape)
+  run prog state tape count =
+    let (nextState, nextTape, nextCount) = exec prog state tape count in
       case nextState of
         H => (count, nextTape)
-        _ => runToHalt (S count) prog nextState nextTape
+        _ => run prog nextState nextTape nextCount
 
   partial
-  runOnBlankTape : Program -> (Nat, t)
-  runOnBlankTape prog = runToHalt 1 prog A (the t blank)
+  runOnBlankTape : Program -> (Nat, tape)
+  runOnBlankTape prog = run prog A (the tape blank) 1
 
 public export
 [MicroMachine] Machine MicroTape where
