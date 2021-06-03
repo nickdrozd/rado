@@ -165,9 +165,9 @@ Tape MacroTape where
 
       SplitEnd a x   => ?zxcv_5
 
-  print cx (S k ** (FS $ FS p, b0 :: b1 :: rest)) =
+  print cx (S k ** (FS $ FS p, b0 :: rest)) =
     let
-      tail = the MacroTape (k ** (FS p, b1 :: rest))
+      tail = the MacroTape (k ** (FS p, rest))
       (j ** (pos, blocks)) = print cx tail
     in
       (S j ** (FS pos, b0 :: blocks))
