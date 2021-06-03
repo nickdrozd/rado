@@ -127,7 +127,6 @@ Tape MacroTape where
           then (S k ** (FZ, x :: b1 :: bs))
           else (  k ** (FZ, (c1, (S j ** FZ)) :: bs))
 
-
       SplitEnd a x   =>
         if cx == c1
           then (S $ S k ** (FS FZ, a :: x :: b1 :: bs))
