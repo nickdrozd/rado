@@ -119,67 +119,91 @@ Tape MacroTape where
     let (color, _) = index blockIndex blocks in
       color
 
-  right _ = ?qwer
-  left _ = ?wert
+  right _ = ?_qwer
+  left _ = ?_wert
 
   ----------------------------------------
 
-  print cx (0 ** (FZ, [b])) =
-    case splitPrint cx b of
-      NoChange       => (0 ** (   FZ, [   b   ]))
-      Replaced   x   => (0 ** (   FZ, [   x   ]))
-      SplitBeg   x c => (1 ** (   FZ, [   x, c]))
-      SplitEnd a x   => (1 ** (FS FZ, [a, x   ]))
+  print cx tape@(0 ** (FZ, [b0])) =
+    case splitPrint cx b0 of
+      NoChange => tape
+      Replaced x => (0 ** (FZ, [x]))
+      SplitBeg x c => (1 ** (FZ, [x, c]))
       SplitMid a x c => (2 ** (FS FZ, [a, x, c]))
+      SplitEnd a x => (1 ** (FZ, [a, x]))
 
-  print cx tape@(S k ** (FZ, b0 :: b1@(c1, (j ** pos)) :: bs)) =
+  print cx tape@(1 ** (FZ, [b0, b1])) =
     case splitPrint cx b0 of
       NoChange       => tape
+      Replaced   x   => ?asdf_2
+      SplitBeg   x c => ?asdf_3
+      SplitMid a x c => ?asdf_4
+      SplitEnd a x   => ?asdf_5
 
-      SplitBeg   x c =>
-        (    S $ S k ** (   FZ,      x :: c :: b1 :: bs))
+  print cx (1 ** (FS FZ, [b0, b1])) = ?asdf_8
 
-      SplitMid a x c =>
-        (S $ S $ S k ** (FS FZ, a :: x :: c :: b1 :: bs))
+  print cx (2 ** (        FZ, [b0, b1, b2])) = ?asdf_9
+  print cx (2 ** (     FS FZ, [b0, b1, b2])) = ?asdf_11
+  print cx (2 ** (FS $ FS FZ, [b0, b1, b2])) = ?asdf_12
 
-      Replaced   x   =>
-        if cx == c1
-          then (S k ** (FZ, x :: b1 :: bs))
-          else (  k ** (FZ, (c1, (S j ** FZ)) :: bs))
+  print cx (S $ S $ S k ** (pos, b0 :: b1 :: b2 :: b3 :: blocks)) = ?asdf_7
 
-      SplitEnd a x   =>
-        if cx == c1
-          then (S $ S k ** (FS FZ, a :: x :: b1 :: bs))
-          else (    S k ** (FS FZ, a :: (c1, (S j ** FZ)) :: bs))
+  -- print cx (0 ** (FZ, [b])) =
+  --   case splitPrint cx b of
+  --     NoChange       => (0 ** (   FZ, [   b   ]))
+  --     Replaced   x   => (0 ** (   FZ, [   x   ]))
+  --     SplitBeg   x c => (1 ** (   FZ, [   x, c]))
+  --     SplitEnd a x   => (1 ** (FS FZ, [a, x   ]))
+  --     SplitMid a x c => (2 ** (FS FZ, [a, x, c]))
 
-  print cx tape@(S k ** (FS FZ, b0@(c0, (j0 ** p0)) :: b1 :: bs)) =
-    case splitPrint cx b1 of
-      NoChange       => tape
+  -- print cx tape@(S k ** (FZ, b0 :: b1@(c1, (j ** pos)) :: bs)) =
+  --   case splitPrint cx b0 of
+  --     NoChange       => tape
 
-      SplitMid a x c =>
-        (S $ S $ S k ** (FS $ FS FZ, b0 :: a :: x :: c :: bs))
+  --     SplitBeg   x c =>
+  --       (    S $ S k ** (   FZ,      x :: c :: b1 :: bs))
 
-      SplitBeg   x c =>
-        if c0 == cx
-          then (    S k ** (FZ, (c0, (S j0 ** FS p0)) :: c :: bs))
-          else (S $ S k ** (FS FZ, b0 :: x :: c :: bs))
+  --     SplitMid a x c =>
+  --       (S $ S $ S k ** (FS FZ, a :: x :: c :: b1 :: bs))
 
-      SplitEnd a x   =>
-        case bs of
-          [] => (2 ** (FS $ FS FZ, [b0, a, x]))
-          (c2, (j2 ** p2)) :: bs =>
-            if c2 == cx
-              then ?asdf
-              else ?zxcv
+  --     Replaced   x   =>
+  --       if cx == c1
+  --         then (S k ** (FZ, x :: b1 :: bs))
+  --         else (  k ** (FZ, (c1, (S j ** FZ)) :: bs))
 
-      Replaced   x   => ?zxcv_2
+  --     SplitEnd a x   =>
+  --       if cx == c1
+  --         then (S $ S k ** (FS FZ, a :: x :: b1 :: bs))
+  --         else (    S k ** (FS FZ, a :: (c1, (S j ** FZ)) :: bs))
 
-  print cx (S k ** (FS $ FS p, b0 :: rest)) =
-    let
-      tail = the MacroTape (k ** (FS p, rest))
-      (  j ** (   pos,       blocks)) = print cx tail
-    in
-      (S j ** (FS pos, b0 :: blocks))
+  -- print cx tape@(S k ** (FS FZ, b0@(c0, (j0 ** p0)) :: b1 :: bs)) =
+  --   case splitPrint cx b1 of
+  --     NoChange       => tape
+
+  --     SplitMid a x c =>
+  --       (S $ S $ S k ** (FS $ FS FZ, b0 :: a :: x :: c :: bs))
+
+  --     SplitBeg   x c =>
+  --       if c0 == cx
+  --         then (    S k ** (FZ, (c0, (S j0 ** FS p0)) :: c :: bs))
+  --         else (S $ S k ** (FS FZ, b0 :: x :: c :: bs))
+
+  --     SplitEnd a x   =>
+  --       case bs of
+  --         [] => (2 ** (FS $ FS FZ, [b0, a, x]))
+  --         (c2, (j2 ** p2)) :: bs =>
+  --           if c2 == cx
+  --             then ?asdf
+  --             else ?zxcv
+
+  --     Replaced   x   => ?zxcv_2
+
+  -- print cx (S k ** (FS $ FS p, b0 :: rest)) =
+  --   let
+  --     tail = the MacroTape (k ** (FS p, rest))
+  --     (  j ** (   pos,       blocks)) = print cx tail
+  --   in
+  --     (S j ** (FS pos, b0 :: blocks))
 
   ----------------------------------------
 
