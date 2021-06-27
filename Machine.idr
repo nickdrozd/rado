@@ -1,6 +1,6 @@
 module Machine
 
-import Program
+import public Program
 import public Tape
 
 %default total
