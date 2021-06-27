@@ -65,11 +65,13 @@ main : IO ()
 main = run Programs where
   run : List String -> IO ()
   run [] = pure ()
-  run (prog :: rest) = do
-    Just program <- parseProgram prog | Nothing => run rest
+  run (progString :: rest) = do
+    Just program <- parseProgram progString | Nothing => run rest
 
-    result <- runOnBlankTape @{MacroMachine} program
+    (steps, tape) <- runOnBlankTape @{MacroMachine} program
 
-    putStrLn $ show result
+    putStrLn $ case marks tape of
+                    0 => show (progString, steps)
+                    _ => progString
 
     run rest
