@@ -19,16 +19,6 @@ BB2 _  c = (c, L, H)
 
 -- 3/2
 
-bb3Literal : Vect 3 BWAction
-bb3Literal = [
-  [(1, (R, B)), (1, (R, H))],
-  [(1, (L, B)), (0, (R, C))],
-  [(1, (L, C)), (1, (L, A))]]
-
-public export
-bb3 : Program
-bb3 = makeProgram bb3Literal
-
 public export
 BB3 : Program
 BB3 A 0 = (1, R, B)
@@ -40,17 +30,6 @@ BB3 C 1 = (1, L, A)
 BB3 _ c = (c, L, H)
 
 -- 4/2
-
-bb4Literal : Vect 4 BWAction
-bb4Literal = [
-  [(1, R, B), (1, L, B)],
-  [(1, L, A), (0, L, C)],
-  [(1, R, H), (1, L, D)],
-  [(1, R, D), (0, R, A)]]
-
-public export
-bb4 : Program
-bb4 = makeProgram bb4Literal
 
 public export
 BB4 : Program
@@ -66,23 +45,23 @@ BB4 _ c = (c, L, H)
 
 -- 5/2
 
-public export
-tm5 : Program
-tm5 = makeProgram [
-  [(1, (R, B)), (0, (L, C))],
-  [(1, (R, C)), (1, (R, D))],
-  [(1, (L, A)), (0, (R, B))],
-  [(0, (R, E)), (1, (R, H))],
-  [(1, (L, C)), (1, (R, A))]]
+-- public export
+-- tm5 : Program
+-- tm5 = makeProgram [
+--   [(1, (R, B)), (0, (L, C))],
+--   [(1, (R, C)), (1, (R, D))],
+--   [(1, (L, A)), (0, (R, B))],
+--   [(0, (R, E)), (1, (R, H))],
+--   [(1, (L, C)), (1, (R, A))]]
 
-public export
-bb5 : Program
-bb5 = makeProgram [
-  [(1, (R, B)), (1, (L, C))],
-  [(1, (R, C)), (1, (R, B))],
-  [(1, (R, D)), (0, (L, E))],
-  [(1, (L, A)), (1, (L, D))],
-  [(1, (R, H)), (0, (L, A))]]
+-- public export
+-- bb5 : Program
+-- bb5 = makeProgram [
+--   [(1, (R, B)), (1, (L, C))],
+--   [(1, (R, C)), (1, (R, B))],
+--   [(1, (R, D)), (0, (L, E))],
+--   [(1, (L, A)), (1, (L, D))],
+--   [(1, (R, H)), (0, (L, A))]]
 
 -- 2/4
 
