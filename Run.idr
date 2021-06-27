@@ -72,6 +72,6 @@ main = run Programs where
 
     putStrLn $ case marks tape of
                     0 => show (progString, steps)
-                    _ => progString
+                    _ => show $ length rest
 
     run rest
