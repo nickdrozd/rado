@@ -31,7 +31,7 @@ interface Tape tape => Machine tape where
                        Just ms => marks + ms
                        Nothing => marks
     in
-      if nextState == H || nextMarks == 0
+      if nextMarks == 0
         then pure (nextSteps, nextTape)
         else run k prog nextState nextTape nextSteps nextMarks
 
