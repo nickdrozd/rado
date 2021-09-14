@@ -28,7 +28,10 @@ jobs:
       # Runs a single command using the runners shell
       - name: Install Idris
         run: |
+          brew --version
           brew update
+          brew upgrade
+          brew --version
           brew install coreutils
           brew install --HEAD idris2
 
