@@ -33,7 +33,7 @@ jobs:
           brew upgrade
           brew --version
           brew install coreutils
-          brew install --HEAD idris2
+          brew install idris2
 
       # Runs a set of commands using the runners shell
       - name: Test
